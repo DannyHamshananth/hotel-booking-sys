@@ -1,14 +1,28 @@
 "use client"
 import { useState } from "react";
+import { signIn } from "next-auth/react";
 import './login.css'
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
-  const login = async () => {
-      console.log(email);
-      console.log(password);
+  const login = async (e: React.FormEvent) => {
+    // Call NextAuth credentials provider
+    const result = await signIn("credentials", {
+      redirect: false,   // prevents auto-redirect
+      email,
+      password,
+    });
+    console.log(result);
+
+    if (result?.error) {
+      setError("Invalid email or password");
+    } else {
+      // Redirect to dashboard or home page
+      window.location.href = "/";
+    }
 
   }
 
@@ -33,7 +47,7 @@ export default function Login() {
 
 
             <button className="btn" type="submit" onClick={login}>Log in</button>
-
+            {error && <p className="err-txt">{error}</p>}
 
             <div className="footer">
               <label className="checkbox">
