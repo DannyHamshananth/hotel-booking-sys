@@ -1,9 +1,12 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useSession, signOut } from "next-auth/react";
+
 import "./Navbar.css";
 
 export default function Navbar() {
+  const { data: session } = useSession();
   const pathname = usePathname();
 
   return (
@@ -15,15 +18,29 @@ export default function Navbar() {
         <li>
           <Link href="/" className={pathname === "/" ? "active" : ""}>Rooms</Link>
         </li>
-        <li>
-          <Link href="/dashboard" className={pathname === "/dashboard" ? "active" : ""}>Dashboard</Link>
-        </li>
-        <li>
-          <Link href="/login" className={pathname.startsWith("/login") ? "active" : ""}>Login/Register</Link>
-        </li>
-        <li>
-          <Link href="/logout" className={pathname === "/logout" ? "active" : ""}>Logout</Link>
-        </li>
+        {session &&
+          <li>
+            <Link href="/dashboard" className={pathname === "/dashboard" ? "active" : ""}>Dashboard</Link>
+          </li>
+        }
+        {!session &&
+          <li>
+            <Link href="/login" className={pathname.startsWith("/login") ? "active" : ""}>Login/Register</Link>
+          </li>
+        }
+        {session &&
+          <li>
+            <a
+              href="#"
+              onClick={(e) => {
+                e.preventDefault(); // prevent normal navigation
+                signOut({ callbackUrl: "/" });
+              }}
+            >
+              Logout
+            </a>
+          </li>
+        }
       </ul>
     </nav>
   );
