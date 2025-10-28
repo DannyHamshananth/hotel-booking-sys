@@ -9,13 +9,13 @@ export default function Login() {
   const [error, setError] = useState("");
 
   const login = async (e: React.FormEvent) => {
+    e.preventDefault();
     // Call NextAuth credentials provider
     const result = await signIn("credentials", {
       redirect: false,   // prevents auto-redirect
       email,
       password,
     });
-    console.log(result);
 
     if (result?.error) {
       setError("Invalid email or password");
