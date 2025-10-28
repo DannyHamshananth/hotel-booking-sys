@@ -1,0 +1,72 @@
+/* Make the page fill the viewport and center content */
+.label{
+display: flex;
+flex-direction: column;
+font-size: 0.9rem;
+color: var(--muted);
+}
+
+
+.input{
+margin-top: 0.45rem;
+padding: 0.65rem 0.75rem;
+border: 1px solid #e6e9ee;
+border-radius: 8px;
+font-size: 0.95rem;
+outline: none;
+transition: box-shadow .15s, border-color .15s;
+}
+
+
+.input:focus{
+border-color: rgba(37,99,235,0.6);
+box-shadow: 0 0 0 4px rgba(37,99,235,0.08);
+}
+
+
+.btn{
+margin-top: 0.5rem;
+padding: 0.75rem 1rem;
+border: none;
+border-radius: 10px;
+background: var(--primary-color);
+color: white;
+font-weight: 600;
+cursor: pointer;
+font-size: 1rem;
+}
+
+
+.btn:active{ transform: translateY(1px); }
+
+
+.footer{
+display: flex;
+align-items: center;
+justify-content: space-between;
+margin-top: 0.6rem;
+gap: 0.5rem;
+}
+
+
+.checkbox{
+font-size: 0.9rem;
+color: var(--muted);
+display: inline-flex;
+gap: 0.5rem;
+align-items: center;
+}
+
+
+.link{
+font-size: 0.9rem;
+color: var(--accent);
+text-decoration: none;
+}
+
+
+/* Responsive tweaks */
+@media (max-width: 480px){
+.card{ padding: 1.25rem; border-radius: 10px; }
+.title{ font-size: 1.15rem }
+}
