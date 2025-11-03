@@ -29,7 +29,6 @@ export default function Login() {
   return (
     <div className='container'>
       <main className="page-root">
-        <div className="card">
           <h1 className="title">Sign in</h1>
 
 
@@ -56,7 +55,6 @@ export default function Login() {
               <a className="link" href="#">Forgot password?</a>
             </div>
           </form>
-        </div>
       </main>
     </div>
   )
