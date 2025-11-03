@@ -1,0 +1,39 @@
+.stepper-container {
+  display: flex;
+  align-items:center;
+  justify-content: left;
+  background-color: #f4f5f0;
+  padding: 15px;
+  gap: 30px;
+}
+
+.step-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #b2b2b2;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.step-item.active {
+  color: black;
+  font-weight: 600;
+}
+
+.step-circle {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background-color: #d6d6d6;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+}
+
+.step-item.active .step-circle {
+  background-color: black;
+}
