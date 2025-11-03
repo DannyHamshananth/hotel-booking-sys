@@ -1,8 +1,8 @@
 "use client"
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useSearchParams } from 'next/navigation';
-import { format, addDays } from "date-fns";
+import { format, addDays, parseISO } from "date-fns";
 
 import Stepper from "@/app/components/Stepper";
 import Card from "@/app/components/Card";
@@ -12,7 +12,35 @@ export default function Page() {
   const searchParams = useSearchParams();
   const [day, setDay] = useState(searchParams.get('day') || Date);
   const [persons, setPersons] = useState(searchParams.get('persons') || 1);
-  
+  const [rooms, setRooms] = useState([]);
+
+  const formated_date = format(day, "yyyy-MM-dd'T'00:00:00.000'Z'");
+
+  useEffect(() => {
+    (async () => {
+      const params = {
+        day: formated_date,
+        persons: persons.toString()
+      };
+      const queryString = new URLSearchParams(params).toString();
+      const baseUrl = 'http://localhost:3000/api/rooms';
+      const url = `${baseUrl}?${queryString}`;
+      console.log(url);
+
+      try {
+        const response = await fetch(url);
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const result = await response.json();
+        console.log(result)
+        setRooms(result);
+      } catch (error) {
+        console.error("Fetch failed:", error);
+      }
+    })();
+  }, []);
+
   return (
     <div className="container">
       <div className="stepper-inner">
@@ -26,8 +54,9 @@ export default function Page() {
           </div>
         </div>
         <div className="room-list">
-          <Card/>
-          <Card/>
+          {rooms.map((room:any)=> 
+            <Card key={room.id} room={room}/>
+          )}
         </div>
       </div>
     </div>
