@@ -1,8 +1,8 @@
 import './Card.css'
 
 export default function Card({room}:any) {
-  const booking = (e:any) => {
-    console.log(e.target.id)
+  const booking = (id:any) => {
+    
   }
   return (
     <div className="card">
@@ -19,7 +19,7 @@ export default function Card({room}:any) {
       <div className="card-right">
         <p className="price">${room.room.amount.toLocaleString()}<span>/night</span></p>
         <p className="note">Subject to GST and charges</p>
-        <button className="book-btn" id={room.id} onClick={(e)=> {booking(e)}}>BOOK ROOM</button>
+        <button className="book-btn" id={room.id} onClick={(e)=> {booking(room.id)}}>BOOK ROOM</button>
       </div>
     </div>
   );
