@@ -1,0 +1,92 @@
+.card {
+  display: flex;
+  justify-content: space-between;
+  align-items: stretch;
+  background-color: #f8f8f3;
+  border: 1px solid #e3e3e3;
+  overflow: hidden;
+  width: 100%;
+}
+
+.card-left {
+  display: flex;
+  gap: 20px;
+  padding: 20px;
+  flex: 1;
+}
+
+.image-placeholder {
+  width: 340px;
+  height: 210px;
+  background-color: #ddd;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #777;
+  font-size: 18px;
+}
+
+.room-info h3 {
+  font-size: 14px;
+  margin: 0;
+  letter-spacing: 0.5px;
+}
+
+.subtitle {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #777;
+  margin: 5px 0;
+}
+
+.desc {
+  font-size: 13px;
+  color: #333;
+  line-height: 1.5;
+  margin-top: 10px;
+}
+
+.card-right {
+  background-color: #ecece4;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  text-align: left;
+  min-width: 200px;
+}
+
+.price {
+  font-size: 20px;
+  font-weight: bold;
+  margin: 0;
+}
+
+.price span {
+  font-size: 12px;
+  color: #555;
+  margin-left: 4px;
+}
+
+.note {
+  font-size: 11px;
+  color: #555;
+  margin: 4px 0 12px 0;
+}
+
+.book-btn {
+  background-color: #000;
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  font-size: 11px;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.book-btn:hover {
+  background-color: #222;
+}
