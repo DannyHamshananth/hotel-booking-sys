@@ -16,6 +16,10 @@ export default function Page() {
 
   const formated_date = format(day, "yyyy-MM-dd'T'00:00:00.000'Z'");
 
+  const handleDataFromChild = (id: number) => {
+    console.log(id);
+  };
+
   useEffect(() => {
     (async () => {
       const params = {
@@ -55,7 +59,7 @@ export default function Page() {
         </div>
         <div className="room-list">
           {rooms.map((room:any)=> 
-            <Card key={room.id} room={room}/>
+            <Card key={room.id} room={room} sendDataToParent={handleDataFromChild}/>
           )}
         </div>
       </div>
