@@ -1,8 +1,9 @@
+"use client"
 import './Card.css'
 
 export default function Card({room}:any) {
   const booking = (id:any) => {
-    
+
   }
   return (
     <div className="card">
