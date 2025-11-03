@@ -1,9 +1,27 @@
 "use client"
+
+type CardProps = {
+  room: any; // you can replace `any` with your specific type
+  sendDataToParent: (data: any) => void;
+};
+
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import './Card.css'
 
-export default function Card({room}:any) {
-  const booking = (id:any) => {
+export default function Card({ room, sendDataToParent }: CardProps) {
+  const router = useRouter();
+  const { data: session } = useSession();
 
+  const booking = (id: any) => {
+    if (!session) {
+      // not logged in → redirect to login page
+      router.push("/login");
+    } else {
+      // logged in → do your action here
+      console.log("User is logged in!");
+      sendDataToParent(id);
+    }
   }
   return (
     <div className="card">
@@ -20,7 +38,7 @@ export default function Card({room}:any) {
       <div className="card-right">
         <p className="price">${room.room.amount.toLocaleString()}<span>/night</span></p>
         <p className="note">Subject to GST and charges</p>
-        <button className="book-btn" id={room.id} onClick={(e)=> {booking(room.id)}}>BOOK ROOM</button>
+        <button className="book-btn" id={room.id} onClick={(e) => { booking(room.id) }}>BOOK ROOM</button>
       </div>
     </div>
   );
