@@ -2,7 +2,8 @@
 
 import { useState, useEffect } from "react";
 import { useSearchParams } from 'next/navigation';
-import { format, addDays, parseISO } from "date-fns";
+import { useSession } from "next-auth/react";
+import { format, addDays } from "date-fns";
 
 import Stepper from "@/app/components/Stepper";
 import Card from "@/app/components/Card";
@@ -10,18 +11,37 @@ import './page.css'
 
 export default function Page() {
   const searchParams = useSearchParams();
+  const { data: session } = useSession();
+
+  console.log(session);
+
   const [stepperPosition, setStepperPosition] = useState(2);
   const [day, setDay] = useState(searchParams.get('day') || Date);
   const [persons, setPersons] = useState(searchParams.get('persons') || 1);
   const [rooms, setRooms] = useState([]);
 
+  const [title, setTitle] = useState("Mr.");
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+
+  const [slot, setSlot] = useState<any>();
+
   const formated_date = format(day, "yyyy-MM-dd'T'00:00:00.000'Z'");
 
   const handleDataFromChild = (id: number) => {
-    setStepperPosition(prev => prev + 1)
+    setStepperPosition(prev => prev + 1);
+    setSlot(rooms.find((room:any) => room.id === id));
   };
 
+  const booking = () => {
+    console.log(name)
+    console.log(title)
+    console.log(email)
+  }
+
   useEffect(() => {
+    setName(session?.user?.name || "");
+    setEmail(session?.user?.email || "");
     (async () => {
       const params = {
         day: formated_date,
@@ -76,48 +96,48 @@ export default function Page() {
 
                 <div className="form-group">
                   <label>Title</label>
-                  <select className="gender-select">
-                    <option>Mr.</option>
-                    <option>Mrs.</option>
-                    <option>Ms.</option>
+                  <select value={title} onChange={(e)=>setTitle(e.target.value)}>
+                    <option value="Mr.">Mr.</option>
+                    <option value="Mrs.">Mrs.</option>
+                    <option value="Dr.">Dr.</option>
                   </select>
                 </div>
 
                 <div className="form-group">
                   <label>Name</label>
-                  <input type="text" value="Adam" readOnly />
+                  <input type="text" value={name} onChange={(e)=>setName(e.target.value)}/>
                 </div>
 
                 <div className="form-group">
                   <label>Email Address</label>
-                  <input type="email" value="bazytepu@teleg.eu" readOnly />
+                  <input type="email" value={email} onChange={(e)=>setEmail(e.target.value)}/>
                 </div>
                 </div>
                 <div className="button-section">
-                  <button className="proceed-btn">PROCEED</button>
+                  <button className="proceed-btn" onClick={booking}>PROCEED</button>
                 </div>
               </div>
 
               <div className="summary-section">
-                <p className="date">JUN 17, 2025 ➜ JUN 18, 2025</p>
+                <p className="date">{format(day, "MMM dd, yyyy")} ➜ {format(addDays(day, 1), "MMM dd, yyyy")}</p>
                 <p>1 NIGHT</p>
-                <h4>ROOM: 1 GUEST</h4>
+                <h4>ROOM: {persons} {persons == 1 ? 'Guest' : 'Guests'}</h4>
 
                 <div className="room-image">340 × 210</div>
 
                 <div className="price-details">
-                  <p><strong>ROOM 1 TITLE</strong></p>
+                  <p>{slot.room.title_1}</p>
                   <div className="price-line">
                     <span>Room</span>
-                    <span>S$1,080.00</span>
+                    <span>{Number(slot.room.amount).toLocaleString('en-SG', { style: 'currency', currency: 'SGD' })}</span>
                   </div>
                   <div className="price-line">
                     <span>Tax & Service Charges (9%)</span>
-                    <span>S$97.20</span>
+                    <span>{Number(slot.room.amount*0.09).toLocaleString('en-SG', { style: 'currency', currency: 'SGD' })}</span>
                   </div>
                   <div className="total-line">
                     <span>Total</span>
-                    <span><strong>S$1,177.20</strong></span>
+                    <span><strong>{(Number(slot.room.amount)+Number(slot.room.amount*0.09)).toLocaleString('en-SG', { style: 'currency', currency: 'SGD' })}</strong></span>
                   </div>
                 </div>
               </div>
