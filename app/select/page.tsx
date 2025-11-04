@@ -69,7 +69,59 @@ export default function Page() {
               }
             </div>
           </div>) : stepperPosition == 3 ? (
-            <div className="stepper-2">stepper 3 Data</div>
+            <div className="stepper-2">
+              <div className="data-section">
+              <div className="contact-section">
+                <h3>CONTACT INFORMATION</h3>
+
+                <div className="form-group">
+                  <label>Title</label>
+                  <select className="gender-select">
+                    <option>Mr.</option>
+                    <option>Mrs.</option>
+                    <option>Ms.</option>
+                  </select>
+                </div>
+
+                <div className="form-group">
+                  <label>Name</label>
+                  <input type="text" value="Adam" readOnly />
+                </div>
+
+                <div className="form-group">
+                  <label>Email Address</label>
+                  <input type="email" value="bazytepu@teleg.eu" readOnly />
+                </div>
+                </div>
+                <div className="button-section">
+                  <button className="proceed-btn">PROCEED</button>
+                </div>
+              </div>
+
+              <div className="summary-section">
+                <p className="date">JUN 17, 2025 ➜ JUN 18, 2025</p>
+                <p>1 NIGHT</p>
+                <h4>ROOM: 1 GUEST</h4>
+
+                <div className="room-image">340 × 210</div>
+
+                <div className="price-details">
+                  <p><strong>ROOM 1 TITLE</strong></p>
+                  <div className="price-line">
+                    <span>Room</span>
+                    <span>S$1,080.00</span>
+                  </div>
+                  <div className="price-line">
+                    <span>Tax & Service Charges (9%)</span>
+                    <span>S$97.20</span>
+                  </div>
+                  <div className="total-line">
+                    <span>Total</span>
+                    <span><strong>S$1,177.20</strong></span>
+                  </div>
+                </div>
+              </div>
+            </div>
           ) : (null)
         }
       </div>
