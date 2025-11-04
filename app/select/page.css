@@ -27,3 +27,8 @@
   flex-direction: column;
   gap: 10px;
 }
+
+.no-message {
+  margin-top: 20px;
+  font-weight: bold;
+}
