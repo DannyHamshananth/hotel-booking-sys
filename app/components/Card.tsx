@@ -36,7 +36,7 @@ export default function Card({ room, sendDataToParent }: CardProps) {
         </div>
       </div>
       <div className="card-right">
-        <p className="price">${room.room.amount.toLocaleString()}<span>/night</span></p>
+        <p className="price">{Number(room.room.amount).toLocaleString('en-SG', { style: 'currency', currency: 'SGD' })}<span>/night</span></p>
         <p className="note">Subject to GST and charges</p>
         <button className="book-btn" id={room.id} onClick={(e) => { booking(room.id) }}>BOOK ROOM</button>
       </div>
