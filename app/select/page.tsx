@@ -10,6 +10,7 @@ import './page.css'
 
 export default function Page() {
   const searchParams = useSearchParams();
+  const [stepperPosition, setStepperPosition] = useState(2);
   const [day, setDay] = useState(searchParams.get('day') || Date);
   const [persons, setPersons] = useState(searchParams.get('persons') || 1);
   const [rooms, setRooms] = useState([]);
@@ -17,7 +18,7 @@ export default function Page() {
   const formated_date = format(day, "yyyy-MM-dd'T'00:00:00.000'Z'");
 
   const handleDataFromChild = (id: number) => {
-    console.log(id);
+    setStepperPosition(prev => prev + 1)
   };
 
   useEffect(() => {
@@ -48,20 +49,29 @@ export default function Page() {
   return (
     <div className="container">
       <div className="stepper-inner">
-        <Stepper currentStep={2} />
-        <div className="filters">
-          <div className="date-range">
-            {format(day, "MMM dd, yyyy")} &rarr; {format(addDays(day, 1), "MMM dd, yyyy")}
-          </div>
-          <div className="capacity">
-            {persons} {persons==1?'Guest':'Guests'} | 1 Night
-          </div>
-        </div>
-        <div className="room-list">
-          {rooms.map((room:any)=> 
-            <Card key={room.id} room={room} sendDataToParent={handleDataFromChild}/>
-          )}
-        </div>
+        <Stepper currentStep={stepperPosition} />
+        {stepperPosition == 2 ?
+          (<div className="stepper-1">
+            <div className="filters">
+              <div className="date-range">
+                {format(day, "MMM dd, yyyy")} &rarr; {format(addDays(day, 1), "MMM dd, yyyy")}
+              </div>
+              <div className="capacity">
+                {persons} {persons == 1 ? 'Guest' : 'Guests'} | 1 Night
+              </div>
+            </div>
+            <div className="room-list">
+              {rooms.length > 0 ?
+                rooms.map((room: any) =>
+                  <Card key={room.id} room={room} sendDataToParent={handleDataFromChild} />
+                ) :
+                (<div className="no-message">Sorry! No rooms available on this day for {persons} {persons == 1 ? 'Guest' : 'Guests'}.</div>)
+              }
+            </div>
+          </div>) : stepperPosition == 3 ? (
+            <div className="stepper-2">stepper 3 Data</div>
+          ) : (null)
+        }
       </div>
     </div>
   );
