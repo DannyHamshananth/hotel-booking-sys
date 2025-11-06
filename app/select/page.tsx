@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { useSearchParams } from 'next/navigation';
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import { format, addDays } from "date-fns";
 
 import Stepper from "@/app/components/Stepper";
@@ -12,6 +13,7 @@ import './page.css'
 export default function Page() {
   const searchParams = useSearchParams();
   const { data: session } = useSession();
+  const router = useRouter();
 
   console.log(session);
 
@@ -33,10 +35,21 @@ export default function Page() {
     setSlot(rooms.find((room:any) => room.id === id));
   };
 
-  const booking = () => {
-    console.log(name)
-    console.log(title)
-    console.log(email)
+  const booking = async () => {
+
+    const res = await fetch(`/api/booking`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ id:slot.id, day, guests:Number(persons), room_id: slot.room.id, room_charge:slot.room.amount, title, name, email}),
+      cache: 'no-store',
+    });
+
+    if (res.status === 201) {
+      const booking = await res.json();
+      router.push(`/confirmation?ref=${booking.id}`);
+    }
   }
 
   useEffect(() => {
