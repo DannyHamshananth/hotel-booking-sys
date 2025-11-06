@@ -33,11 +33,23 @@ model Room {
 }
 
 model BookingDay {
-  id        Int      @id @default(autoincrement())
-  day       DateTime
-  guests    Int?  
-  room_id   Int?
-  user_id   String?
-  room      Room?    @relation(fields: [room_id], references: [id])
-  user      User?    @relation(fields: [user_id], references: [id])
+  id            Int      @id @default(autoincrement())
+  day           DateTime
+  guests        Int?  
+  room_id       Int?
+  user_id       String?
+  room          Room?    @relation(fields: [room_id], references: [id])
+  user          User?    @relation(fields: [user_id], references: [id])
+  bookingInfo   BookingInfo?
+}
+
+model BookingInfo {
+  id                Int      @id @default(autoincrement())
+  room_charge       Decimal  @db.Decimal(8, 2)
+  extra_charges     Decimal  @db.Decimal(6, 2)
+  title             String
+  name              String
+  email             String
+  booking_slot_id   Int    @unique
+  bookingDay        BookingDay   @relation(fields: [booking_slot_id], references: [id])
 }
