@@ -32,6 +32,7 @@ export default function Home() {
           className="date-input"
           defaultValue={day}
           onChange={(e)=>setDay(e.target.value)}
+          min={day}
         />
       </div>
       <button onClick={search} className="search-button">SEARCH FOR ROOMS</button>
