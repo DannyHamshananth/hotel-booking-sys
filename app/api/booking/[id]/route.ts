@@ -1,8 +1,12 @@
 import prisma from "@/lib/prisma"
 import { NextResponse, NextRequest } from "next/server"
 
+import { getToken } from "next-auth/jwt";
+const secret = process.env.NEXTAUTH_SECRET;
+
 export async function GET(req: NextRequest, { params }: { params: { id: string } }) {
   const id = parseInt(params.id)
+  const token = await getToken({ req: req, secret });
 
   try {
     const booking = await prisma.bookingDay.findUnique({
@@ -11,7 +15,14 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
         room: true,
         bookingInfo: true
       }
-    })
+    });
+
+    if (token?.id !== booking?.user_id) {
+      return NextResponse.json(
+        { error: "Unauthorized request" },
+        { status: 403 }
+      );
+    }
 
     return NextResponse.json(booking)
   } catch (error) {
