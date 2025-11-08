@@ -1,0 +1,114 @@
+.booking-summary-card {
+  border: 1px solid #e5e7eb;
+  background: #fff;
+  padding: 16px;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  color: #1f2937;
+  width: 1000px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.04);
+}
+
+.booking-summary-header {
+  text-align: center;
+  font-size: 0.95rem;
+  margin-bottom: 12px;
+  line-height: 1.5;
+}
+
+.booking-summary-body {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  border-top: 1px solid #f3f4f6;
+  padding-top: 14px;
+}
+
+.room-section {
+  display: flex;
+  flex: 2;
+  gap: 25px;
+}
+
+.room-image {
+  flex: 1;
+  width: 120px;
+  height: 100%;
+  background: #f3f4f6;
+  flex-shrink: 0;
+}
+
+.room-info {
+  flex: 3;
+}
+
+.room-info h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.room-info h3 span {
+  font-weight: 700;
+}
+
+.room-info p {
+  font-size: 0.9rem;
+  color: #6b7280;
+  margin-bottom: 6px;
+}
+
+.room-info table {
+  font-size: 0.9rem;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.room-info td {
+  padding: 4px 0;
+}
+
+.price {
+  text-align: right;
+}
+
+.total-row td {
+  border-top: 1px solid #e5e7eb;
+  padding-top: 6px;
+}
+
+.total {
+  font-weight: 700;
+}
+
+.action-section {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+}
+
+.cancel-btn {
+  border: 1px solid #ef4444;
+  background: transparent;
+  color: #ef4444;
+  font-weight: 600;
+  padding: 8px 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.cancel-btn:hover {
+  background: #fee2e2;
+}
+
+.cancel-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.cancelled-label {
+  background: #fee2e2;
+  color: #b91c1c;
+  padding: 6px 10px;
+  font-weight: 600;
+}
