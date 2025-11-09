@@ -1,5 +1,6 @@
 import { useState } from "react";
 import "./BookingCard.css";
+import { format, addDays } from "date-fns";
 
 type BookingCard = {
   booking: any; // you can replace `any` with your specific type
@@ -28,28 +29,14 @@ export default function BookingSummaryCard({ booking, sendDataToParent }: Bookin
     <div className="booking-summary-card">
       <div className="booking-summary-header">
         <p>
-          <strong>Check-in/Check-out:</strong>{" "}
-          {new Date(booking.checkIn).toLocaleDateString(undefined, {
-            month: "short",
-            day: "numeric",
-            year: "numeric",
-          })}{" "}
-          –{" "}
-          {new Date(booking.checkOut).toLocaleDateString(undefined, {
-            month: "short",
-            day: "numeric",
-            year: "numeric",
-          })}
+          <strong>Check-in/Check-out:</strong> {booking?.day ?format(booking.day, "MMM dd, yyyy"):""} – {booking?.day ?format(addDays(booking.day, 1), "MMM dd, yyyy"):""}
         </p>
         <p>
-          <strong>Booking Confirmation Number:</strong> {booking.ref}
+          <strong>Booking Confirmation Number:</strong> RES{booking.id}
         </p>
         <p>
-          <strong>Total Price for {booking.nights} Night{booking.nights > 1 ? "s" : ""}:</strong>{" "}
-          {booking.total.toLocaleString("en-US", {
-            style: "currency",
-            currency: "USD",
-          })}
+          <strong>Total Price for {booking.guests} Night{booking.nights > 1 ? "s" : ""}:</strong>{" "}
+          {booking?.bookingInfo?.room_charge ?(Number(booking.bookingInfo.room_charge)+Number(booking.bookingInfo.extra_charges)).toLocaleString('en-SG', { style: 'currency', currency: 'SGD' }): ""}
         </p>
       </div>
 
@@ -58,37 +45,28 @@ export default function BookingSummaryCard({ booking, sendDataToParent }: Bookin
           <div className="room-image"></div>
           <div className="room-info">
             <h3>
-              ROOM: <span>{booking.roomTitle}</span>
+              ROOM: <span>{booking?.room?.title_1 ? booking.room.title_1: ""}</span>
             </h3>
-            <p>{booking.guests} Guests</p>
+            <p>{booking.guests} {booking.guests == 1 ? 'Guest' : 'Guests'}</p>
             <table>
               <tbody>
                 <tr>
                   <td>Room</td>
                   <td className="price">
-                    {booking.roomPrice.toLocaleString("en-US", {
-                      style: "currency",
-                      currency: "USD",
-                    })}
+                    {booking?.bookingInfo?.room_charge ? (Number(booking.bookingInfo.room_charge)).toLocaleString('en-SG', { style: 'currency', currency: 'SGD' }): ""}
                   </td>
                 </tr>
                 <tr>
                   <td>Tax & Service Charges (9%)</td>
                   <td className="price">
-                    {booking.tax.toLocaleString("en-US", {
-                      style: "currency",
-                      currency: "USD",
-                    })}
+                    {booking?.bookingInfo?.extra_charges ? (Number(booking.bookingInfo.extra_charges)).toLocaleString('en-SG', { style: 'currency', currency: 'SGD' }): ""}
                   </td>
                 </tr>
                 <tr className="total-row">
                   <td><strong>Total Price</strong></td>
                   <td className="price total">
                     <strong>
-                      {booking.total.toLocaleString("en-US", {
-                        style: "currency",
-                        currency: "USD",
-                      })}
+                      {booking?.bookingInfo?.room_charge && booking?.bookingInfo?.extra_charges ? (Number(booking.bookingInfo.room_charge)+Number(booking.bookingInfo.extra_charges)).toLocaleString('en-SG', { style: 'currency', currency: 'SGD' }): ""}
                     </strong>
                   </td>
                 </tr>
