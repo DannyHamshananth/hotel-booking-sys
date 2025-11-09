@@ -78,7 +78,7 @@ export default function BookingSummaryCard({ booking, sendDataToParent }: Bookin
         <div className="action-section">
           {booking.status === "cancelled" ? (
             <span className="cancelled-label">Cancelled</span>
-          ) : (
+          ) : booking.status === "active" ? (
             <button
               className="cancel-btn"
               onClick={handleCancel}
@@ -86,6 +86,11 @@ export default function BookingSummaryCard({ booking, sendDataToParent }: Bookin
             >
               {cancelling ? "Cancelling..." : "Cancel Booking"}
             </button>
+          ): booking.status === "past" ? (
+             <span className="thanks-label">Thanks for your visit!</span>
+             
+          ): ( 
+            null
           )}
         </div>
       </div>
