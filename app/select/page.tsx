@@ -51,7 +51,7 @@ export default function Page() {
 
   useEffect(() => {
     const searchParams = useSearchParams();
-    searchParams.get('day') || new Date().toISOString();
+    setDay(searchParams.get('day') || new Date().toISOString());
     setPersons(searchParams.get('persons') || 1);
     const formated_date = format(day, "yyyy-MM-dd'T'00:00:00.000'Z'");
     setName(session?.user?.name || "");
