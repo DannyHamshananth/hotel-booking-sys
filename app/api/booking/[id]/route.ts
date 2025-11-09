@@ -4,8 +4,8 @@ import { NextResponse, NextRequest } from "next/server"
 import { getToken } from "next-auth/jwt";
 const secret = process.env.NEXTAUTH_SECRET;
 
-export async function GET(req: NextRequest, context: { params: { id: number } }) {
-  const { id } = context.params;
+export async function GET(req: NextRequest, { params }:any) {
+  const { id } = params;
   const token = await getToken({ req: req, secret });
 
   try {
