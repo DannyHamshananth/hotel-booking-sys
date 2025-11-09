@@ -1,19 +1,25 @@
 "use client";
-import { useSearchParams, useRouter } from "next/navigation";
+
+import { use } from 'react'
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { format, addDays } from "date-fns";
 import { useSession } from "next-auth/react";
 import './confirmation.css'
 
-export default function BookingConfirmation() {
+export default function BookingConfirmation({
+  searchParams,
+}: {
+  searchParams: Promise<{ ref?: string }>
+}) {
   const router = useRouter();
   const { data: session, status } = useSession();
+  const params = use(searchParams)
   const [booking, setBooking] = useState<any>();
   const [error, setError] = useState<any>();
 
   useEffect(() => {
-    const searchParams = useSearchParams();
-    const ref = searchParams.get("ref");
+    const ref = params.ref;
     if (!ref) {
       router.replace("/"); // 🚫 prevent direct access
       return;
