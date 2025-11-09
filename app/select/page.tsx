@@ -11,15 +11,14 @@ import Card from "@/app/components/Card";
 import './page.css'
 
 export default function Page() {
-  const searchParams = useSearchParams();
   const { data: session } = useSession();
   const router = useRouter();
 
   console.log(session);
 
   const [stepperPosition, setStepperPosition] = useState(2);
-  const [day, setDay] = useState(searchParams.get('day') || Date);
-  const [persons, setPersons] = useState(searchParams.get('persons') || 1);
+  const [day, setDay] = useState<any>();
+  const [persons, setPersons] = useState<any>();
   const [rooms, setRooms] = useState([]);
 
   const [title, setTitle] = useState("Mr.");
@@ -53,6 +52,9 @@ export default function Page() {
   }
 
   useEffect(() => {
+    const searchParams = useSearchParams();
+    setDay(searchParams.get('day') || Date);
+    setPersons(searchParams.get('persons') || 1);
     setName(session?.user?.name || "");
     setEmail(session?.user?.email || "");
     (async () => {
