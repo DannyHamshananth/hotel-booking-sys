@@ -1,8 +1,7 @@
 "use client";
 
+import { use } from 'react'
 import { useState, useEffect } from "react";
-import { useSearchParams } from 'next/navigation';
-import { Suspense } from 'react';
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { format, addDays } from "date-fns";
@@ -11,10 +10,15 @@ import Stepper from "@/app/components/Stepper";
 import Card from "@/app/components/Card";
 import './page.css'
 
-export default function Page() {
+export default function Page({
+  searchParams,
+}: {
+  searchParams: Promise<{ day?: string, persons?: string }>
+}) {
   const { data: session } = useSession();
   const router = useRouter();
-  const searchParams = useSearchParams();
+  const params = use(searchParams)
+  console.log(params)
 
   const [stepperPosition, setStepperPosition] = useState(2);
   const [day, setDay] = useState<any>();
@@ -50,21 +54,21 @@ export default function Page() {
   }
 
   useEffect(() => {
-    setDay(searchParams.get('day') || new Date().toISOString());
-    setPersons(searchParams.get('persons') || 1);
+    setDay(params.day || new Date().toISOString());
+    setPersons(params.persons || 1);
 
-    const dayParam = searchParams.get('day');
+    const dayParam = params.day;
     const dayDate = dayParam ? new Date(dayParam) : new Date(); // fallback today
     const formated_date = format(dayDate, "yyyy-MM-dd'T'00:00:00.000'Z'");
 
     setName(session?.user?.name || "");
     setEmail(session?.user?.email || "");
     (async () => {
-      const params = {
+      const parameters = {
         day: formated_date,
-        persons: searchParams.get('persons') as string
+        persons: params.persons as string
       };
-      const queryString = new URLSearchParams(params).toString();
+      const queryString = new URLSearchParams(parameters).toString();
       const baseUrl = 'http://localhost:3000/api/rooms';
       const url = `${baseUrl}?${queryString}`;
       console.log(url);
@@ -84,7 +88,6 @@ export default function Page() {
   }, [searchParams]);
 
   return (
-    <Suspense>
       <div className="container">
         <div className="stepper-inner">
           <Stepper currentStep={stepperPosition} />
@@ -164,6 +167,5 @@ export default function Page() {
           }
         </div>
       </div>
-    </Suspense>
   );
 }
