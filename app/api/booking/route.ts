@@ -44,3 +44,24 @@ export async function POST(req: NextRequest) {
 
 }
 
+export async function GET(req: NextRequest) {
+  const token = await getToken({ req: req, secret });
+  const user_id:any = token?.id;
+
+  try {
+    const bookings = await prisma.bookingDay.findMany({
+      where: { user_id: user_id},
+      include: {
+        bookingInfo: true,
+        room: true
+      }
+    });
+
+    return NextResponse.json(bookings);
+  } catch (error) {
+    console.log(error);
+    return NextResponse.json({ error: 'Failed to fetch booking data' }, { status: 500 })
+  }
+
+}
+
