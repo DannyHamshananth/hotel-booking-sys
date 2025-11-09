@@ -3,18 +3,17 @@ import { useSearchParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { format, addDays } from "date-fns";
 import { useSession } from "next-auth/react";
-import { Suspense } from 'react'
 import './confirmation.css'
 
 export default function BookingConfirmation() {
-  const searchParams = useSearchParams();
   const router = useRouter();
   const { data: session, status } = useSession();
-  const ref = searchParams.get("ref");
   const [booking, setBooking] = useState<any>();
   const [error, setError] = useState<any>();
 
   useEffect(() => {
+    const searchParams = useSearchParams();
+    const ref = searchParams.get("ref");
     if (!ref) {
       router.replace("/"); // 🚫 prevent direct access
       return;
@@ -46,7 +45,6 @@ export default function BookingConfirmation() {
   if (!booking) return <p>Loading...</p>;
 
   return (
-    <Suspense>
       <div className="confirmation-container">
         <h2 className="confirmation-title">YOUR BOOKING HAS BEEN CONFIRMED</h2>
         <p className="confirmation-subtitle">
@@ -88,6 +86,5 @@ export default function BookingConfirmation() {
           </div>
         </div>
       </div>
-    </Suspense>
   );
 }
