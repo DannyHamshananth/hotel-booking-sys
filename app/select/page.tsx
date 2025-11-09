@@ -27,8 +27,6 @@ export default function Page() {
 
   const [slot, setSlot] = useState<any>();
 
-  const formated_date = format(day, "yyyy-MM-dd'T'00:00:00.000'Z'");
-
   const handleDataFromChild = (id: number) => {
     setStepperPosition(prev => prev + 1);
     setSlot(rooms.find((room:any) => room.id === id));
@@ -55,6 +53,7 @@ export default function Page() {
     const searchParams = useSearchParams();
     setDay(searchParams.get('day') || Date);
     setPersons(searchParams.get('persons') || 1);
+    const formated_date = format(day, "yyyy-MM-dd'T'00:00:00.000'Z'");
     setName(session?.user?.name || "");
     setEmail(session?.user?.email || "");
     (async () => {
