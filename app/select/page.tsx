@@ -13,8 +13,7 @@ import './page.css'
 export default function Page() {
   const { data: session } = useSession();
   const router = useRouter();
-
-  console.log(session);
+  const searchParams = useSearchParams();
 
   const [stepperPosition, setStepperPosition] = useState(2);
   const [day, setDay] = useState<any>();
@@ -50,16 +49,19 @@ export default function Page() {
   }
 
   useEffect(() => {
-    const searchParams = useSearchParams();
     setDay(searchParams.get('day') || new Date().toISOString());
     setPersons(searchParams.get('persons') || 1);
-    const formated_date = format(day, "yyyy-MM-dd'T'00:00:00.000'Z'");
+
+    const dayParam = searchParams.get('day');
+    const dayDate = dayParam ? new Date(dayParam) : new Date(); // fallback today
+    const formated_date = format(dayDate, "yyyy-MM-dd'T'00:00:00.000'Z'");
+
     setName(session?.user?.name || "");
     setEmail(session?.user?.email || "");
     (async () => {
       const params = {
         day: formated_date,
-        persons: persons.toString()
+        persons: searchParams.get('persons') as string
       };
       const queryString = new URLSearchParams(params).toString();
       const baseUrl = 'http://localhost:3000/api/rooms';
@@ -75,7 +77,7 @@ export default function Page() {
         console.log(result)
         setRooms(result);
       } catch (error) {
-        console.error("Fetch failed:", error);
+        console.log("Fetch failed:", error);
       }
     })();
   }, []);
@@ -88,7 +90,7 @@ export default function Page() {
           (<div className="stepper-1">
             <div className="filters">
               <div className="date-range">
-                {format(day, "MMM dd, yyyy")} &rarr; {format(addDays(day, 1), "MMM dd, yyyy")}
+                {day ? format(day, "MMM dd, yyyy") : ""} &rarr; {day ? format(addDays(day, 1), "MMM dd, yyyy") : ""}
               </div>
               <div className="capacity">
                 {persons} {persons == 1 ? 'Guest' : 'Guests'} | 1 Night
