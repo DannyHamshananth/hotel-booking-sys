@@ -2,15 +2,16 @@ import prisma from "@/lib/prisma"
 import { NextResponse, NextRequest } from "next/server"
 
 import { getToken } from "next-auth/jwt";
+import { equal } from "assert";
 const secret = process.env.NEXTAUTH_SECRET;
 
 export async function GET(req: NextRequest, { params }:any) {
-  const { id } = params;
+  const { id } = await params;
   const token = await getToken({ req: req, secret });
 
   try {
     const booking = await prisma.bookingDay.findUnique({
-      where: { id },
+      where: { id: Number(id) },
       include:{
         room: true,
         bookingInfo: true
