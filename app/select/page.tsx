@@ -69,7 +69,7 @@ export default function Page({
         persons: params.persons as string
       };
       const queryString = new URLSearchParams(parameters).toString();
-      const baseUrl = 'http://localhost:3000/api/rooms';
+      const baseUrl = `${process.env.VERCEL_URL}/api/rooms`;
       const url = `${baseUrl}?${queryString}`;
       console.log(url);
 
