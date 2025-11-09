@@ -80,7 +80,7 @@ export default function Page() {
         console.log("Fetch failed:", error);
       }
     })();
-  }, []);
+  }, [searchParams]);
 
   return (
     <div className="container">
