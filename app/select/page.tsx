@@ -31,6 +31,8 @@ export default function Page({
 
   const [slot, setSlot] = useState<any>();
 
+  const [statusText, setStatusText] = useState("Loading...");
+
   const handleDataFromChild = (id: number) => {
     setStepperPosition(prev => prev + 1);
     setSlot(rooms.find((room:any) => room.id === id));
@@ -71,7 +73,6 @@ export default function Page({
       const queryString = new URLSearchParams(parameters).toString();
       const baseUrl = `/api/rooms`;
       const url = `${baseUrl}?${queryString}`;
-      console.log(url);
 
       try {
         const response = await fetch(url);
@@ -79,7 +80,7 @@ export default function Page({
           throw new Error(`HTTP error! status: ${response.status}`);
         }
         const result = await response.json();
-        console.log(result)
+        if (result.length === 0) setStatusText(`Sorry! No rooms available on this day for ${params.persons} ${Number(params.persons) === 1 ? 'Guest' : 'Guests'}.`)
         setRooms(result);
       } catch (error) {
         console.log("Fetch failed:", error);
@@ -106,7 +107,7 @@ export default function Page({
                   rooms.map((room: any) =>
                     <Card key={room.id} room={room} sendDataToParent={handleDataFromChild} />
                   ) :
-                  (<div className="no-message">Sorry! No rooms available on this day for {persons} {persons == 1 ? 'Guest' : 'Guests'}.</div>)
+                  (<div className="no-message">{statusText}</div>)
                 }
               </div>
             </div>) : stepperPosition == 3 ? (
