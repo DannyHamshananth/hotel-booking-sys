@@ -11,7 +11,7 @@ export default function Signup() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
 
-    const regiter = (e:any) => {
+    const regiter = async (e:any) => {
     if (!name || !email || !password || !confirmPassword) {
       setError("All fields are required!");
       return;
@@ -22,7 +22,7 @@ export default function Signup() {
       return;
     }
 
-    if (password.length < 9) {
+    if (password.length < 6) {
       setError("Password must be at least 6 characters!");
       return;
     }
@@ -31,6 +31,27 @@ export default function Signup() {
       setError("Passwords do not match!");
       return;
     }
+
+      const res = await fetch(`api/signup`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ name, email, password }),
+        cache: 'no-store',
+      });
+
+      if (res.status === 201){
+        const result = await signIn("credentials", {
+          redirect: false,   // prevents auto-redirect
+          email,
+          password,
+        });
+        window.location.href = "/";
+      } else {
+        setError("Some error encontered! Please try again or contact support!")
+      }
+
   }
 
   return (
