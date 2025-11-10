@@ -14,7 +14,7 @@ export default function Dashboard() {
   useEffect(() => {
     (async () => {
       try {
-        const response = await fetch('http://localhost:3000/api/booking');
+        const response = await fetch('/api/booking');
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
