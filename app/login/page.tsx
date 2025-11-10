@@ -49,10 +49,10 @@ export default function Login() {
             {error && <p className="err-txt">{error}</p>}
 
             <div className="footer">
-              <label className="checkbox">
-                <input type="checkbox" /> Remember me
+              <label className="no-account">
+                Don't have an account yet?
               </label>
-              <a className="link" href="#">Forgot password?</a>
+              <a className="link" href="/register">Register</a>
             </div>
           </form>
       </main>
