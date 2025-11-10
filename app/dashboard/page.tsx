@@ -31,12 +31,24 @@ export default function Dashboard() {
     })();
   },[]);
 
-  const handleCancel = (id: any) => {
-    setBookings(prev =>
-      prev.map(b =>
-        b.id === id ? { ...b, status: 'cancelled' } : b
-      )
-    );
+  const handleCancel = async (id: any) => {
+    try {
+      const res = await fetch(`/api/booking/${id}`, {
+        method: "DELETE",
+      });
+
+      if (!res.ok) alert("Failed cancellation. Please try again or contact support.")
+
+      if (res.status === 200) {
+        setBookings(prev =>
+          prev.map(b =>
+            b.id === id ? { ...b, status: 'cancelled' } : b
+          )
+        );
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
