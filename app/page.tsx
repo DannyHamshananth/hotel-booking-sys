@@ -5,8 +5,12 @@ import { format } from "date-fns";
 import './page.css'
 export default function Home() {
   const [day, setDay] = useState(() => format(new Date(), "yyyy-MM-dd"));
+  
   const [persons, setPersons] = useState(2);
   const router = useRouter();
+
+  const minday = new Date().toISOString().split("T")[0];
+  const maxday = new Date("2025-12-31").toISOString().split("T")[0];
 
   const search = () => {
     router.push(`/select?day=${day}&persons=${persons}`);
@@ -32,7 +36,8 @@ export default function Home() {
           className="date-input"
           defaultValue={day}
           onChange={(e)=>setDay(e.target.value)}
-          min={day}
+          min={minday}
+          max={maxday}
         />
       </div>
       <button onClick={search} className="search-button">SEARCH FOR ROOMS</button>
