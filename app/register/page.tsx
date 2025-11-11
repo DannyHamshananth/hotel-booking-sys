@@ -10,6 +10,7 @@ export default function Signup() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
     const regiter = async (e:any) => {
     if (!name || !email || !password || !confirmPassword) {
@@ -31,7 +32,7 @@ export default function Signup() {
       setError("Passwords do not match!");
       return;
     }
-
+      setLoading(true);
       const res = await fetch(`api/signup`, {
         method: 'POST',
         headers: {
@@ -41,7 +42,7 @@ export default function Signup() {
         cache: 'no-store',
       });
 
-      if (res.status === 201){
+      if (res.status === 201) {
         const result = await signIn("credentials", {
           redirect: false,   // prevents auto-redirect
           email,
@@ -79,7 +80,7 @@ export default function Signup() {
               <input className="input" type="password" name="confirmPassword" value={confirmPassword} onChange={(e)=> setConfirmPassword(e.target.value)} placeholder="Confirm your password" required />
             </label>
 
-            <button className="btn" type="submit" onClick={regiter}>Sign Up</button>
+            <button className="btn" type="submit" onClick={regiter} disabled={loading}>{loading ? "Processing..." : "Submit"}</button>
             {error && <p className="err-txt">{error}</p>}
 
             <div className="footer">
