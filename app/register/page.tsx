@@ -80,7 +80,7 @@ export default function Signup() {
               <input className="input" type="password" name="confirmPassword" value={confirmPassword} onChange={(e)=> setConfirmPassword(e.target.value)} placeholder="Confirm your password" required />
             </label>
 
-            <button className="btn" type="submit" onClick={regiter} disabled={loading}>{loading ? "Processing..." : "Submit"}</button>
+            <button className="btn" type="submit" onClick={regiter} disabled={loading}>{loading ? "Wait.." : "Register"}</button>
             {error && <p className="err-txt">{error}</p>}
 
             <div className="footer">
